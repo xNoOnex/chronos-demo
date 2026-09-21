@@ -182,3 +182,30 @@
     border-right-color: var(--border);
   }
 }
+
+/* Security Watermark Overlay */
+.watermark-wrapper {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100vw; 
+  height: 100vh;
+  pointer-events: none; 
+  z-index: 9999;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  overflow: hidden;
+}
+
+.watermark-text {
+  color: rgba(255, 255, 255, 0.06);
+  font-size: 4.5rem; 
+  font-weight: 900;
+  transform: rotate(-35deg);
+  text-align: center; 
+  line-height: 1.1;
+  white-space: nowrap;
+  user-select: none;
+  font-family: monospace;
+}
