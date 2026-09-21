@@ -11,23 +11,21 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // --- STATE ---
+  // --- STATE (Clean Slate: No pre-added junk) ---
   const [fixedFee, setFixedFee] = useState(800);
   const [discount, setDiscount] = useState(0);
+  const [jobNotes, setJobNotes] = useState('Standard deployment.');
   
-  const [materials, setMaterials] = useState([
-    { id: 1, name: 'Timber', cost: 15, qty: 1300 },
-    { id: 2, name: 'Railings', cost: 10, qty: 5 }
-  ]);
+  const [materials, setMaterials] = useState([]);
   const [matName, setMatName] = useState('');
   const [matCost, setMatCost] = useState('');
   const [matQty, setMatQty] = useState('');
 
-  const [crew, setCrew] = useState([
-    { id: 1, name: 'Quintan', rate: 25, isActive: false, accumulatedSecs: 39841, currentStartTimestamp: null }
-  ]);
+  const [crew, setCrew] = useState([]);
   const [crewName, setCrewName] = useState('');
   const [crewRate, setCrewRate] = useState('');
+
+  const [showReceiptModal, setShowReceiptModal] = useState(false);
 
   // --- MATH DERIVATIONS ---
   const displayCrew = crew.map(c => {
@@ -94,7 +92,7 @@ export default function App() {
           <div className="view-container contractor-theme">
             <div className="card border-blue">
               <h2 className="text-center text-green">${grossBillable.toFixed(2)}</h2>
-              <button className="btn-full bg-blue mt-2">View Receipt</button>
+              <button onClick={() => setShowReceiptModal(true)} className="btn-full bg-blue mt-2">View Receipt</button>
             </div>
 
             <div className="card border-green mt-3">
@@ -103,6 +101,8 @@ export default function App() {
               <input type="number" value={fixedFee} onChange={(e) => setFixedFee(e.target.value)} className="input-dark" />
               <label className="label mt-2 text-red">Apply Discount (-$)</label>
               <input type="number" value={discount} onChange={(e) => setDiscount(e.target.value)} className="input-dark border-red" />
+              <label className="label mt-2">Invoice Notes</label>
+              <input type="text" value={jobNotes} onChange={(e) => setJobNotes(e.target.value)} className="input-dark" />
             </div>
 
             <div className="card border-green mt-3">
@@ -157,7 +157,6 @@ export default function App() {
           </div>
         )}
 
-        {/* HOS and History remain visually static placeholders for the demo to save memory */}
         {activeTab === 'hos' && (
           <div className="card border-purple mt-3"><h3 className="text-center text-purple">HOS Timers (Demo restricted)</h3></div>
         )}
@@ -165,6 +164,37 @@ export default function App() {
           <div className="card border-orange mt-3"><h3 className="text-center text-orange">Archives (Demo restricted)</h3></div>
         )}
       </main>
+
+      {/* LIVE INTERACTIVE RECEIPT MODAL */}
+      {showReceiptModal && (
+        <div className="modal-overlay">
+          <div className="modal-content card border-blue">
+            <div className="flex-between">
+              <h3 className="text-green">INVOICE SUMMARY</h3>
+              <button onClick={() => setShowReceiptModal(false)} className="btn-small bg-red">Close</button>
+            </div>
+            <div className="mt-2 text-sm">
+              <div className="flex-between"><span>Service Fee:</span> <span>${parseFloat(fixedFee || 0).toFixed(2)}</span></div>
+              {discount > 0 && <div className="flex-between text-red"><span>Discount Applied:</span> <span>-${parseFloat(discount).toFixed(2)}</span></div>}
+              
+              <div className="mt-2 bold text-gray">Materials:</div>
+              {materials.length === 0 ? <div className="italic text-gray">None added</div> : materials.map(m => (
+                <div key={m.id} className="flex-between pl-2"><span>{m.name} (x{m.qty})</span> <span>${(m.cost * m.qty).toFixed(2)}</span></div>
+              ))}
+
+              <div className="mt-2 bold text-gray">Labor Payouts:</div>
+              {displayCrew.length === 0 ? <div className="italic text-gray">No crew active</div> : displayCrew.map(c => (
+                <div key={c.id} className="flex-between pl-2"><span>{c.name} ({formatTime(c.liveElapsed)})</span> <span>${((c.liveElapsed / 3600) * c.rate).toFixed(2)}</span></div>
+              ))}
+
+              <div className="mt-3 border-top pt-2 flex-between bold text-green" style={{ fontSize: '1.2em' }}>
+                <span>TOTAL DUE:</span> <span>${grossBillable.toFixed(2)}</span>
+              </div>
+              <div className="mt-2 italic text-gray">Notes: {jobNotes}</div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
