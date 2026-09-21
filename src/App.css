@@ -23,3 +23,6 @@ body { background-color: var(--bg-dark); color: var(--text-main); }
 .input-dark { background: #000; border: 1px solid #333; color: white; padding: 12px; border-radius: 6px; width: 100%; }
 .watermark-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; display: flex; justify-content: center; align-items: center; overflow: hidden; }
 .watermark-text { color: rgba(255, 255, 255, 0.08); font-size: 4rem; font-weight: 900; transform: rotate(-35deg); text-align: center; line-height: 1.1; user-select: none; font-family: monospace; }
+.bg-purple { background-color: var(--accent-purple) !important; color: white; }
+.mb-2 { margin-bottom: 10px; }
+.border-none { border: none; font-size: 1.1em; padding: 0 5px; }
