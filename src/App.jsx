@@ -1,122 +1,74 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function HOSLogs() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="view-container hos-theme">
+      <div className="card border-purple">
+        <div className="grid-2">
+          <div className="timer-box"><span className="label">DRIVE (11 HR)</span><span className="time green">11:00:00</span></div>
+          <div className="timer-box"><span className="label">SHIFT (14 HR)</span><span className="time green">14:00:00</span></div>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+        <button className="btn-full bg-dark">START 14-HOUR SHIFT</button>
+        <button className="btn-full bg-green mt-2">START DRIVING</button>
+      </div>
+      <div className="card border-orange mt-3">
+        <div className="timer-box text-center"><span className="time orange">00:00:00</span></div>
+        <div className="grid-3 mt-2">
+          <button className="btn-outline border-orange">10 Min</button>
+          <button className="btn-outline border-orange">15 Min</button>
+          <button className="btn-solid bg-orange">30 Min</button>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      </div>
+    </div>
+  );
 }
 
-export default App
+function ContractorHub() {
+  return (
+    <div className="view-container contractor-theme">
+      <div className="card border-blue">
+        <h2 className="text-center text-green">$36475.46</h2>
+        <button className="btn-full bg-blue mt-2">View Receipt</button>
+      </div>
+      <div className="card border-green mt-3">
+        <h3 className="text-green text-center">JOB FINANCIALS</h3>
+        <label className="label mt-2">Fixed Service Fee ($)</label>
+        <input type="number" defaultValue="800" className="input-dark" />
+      </div>
+    </div>
+  );
+}
+
+function HistoryArchives() {
+  return (
+    <div className="view-container history-theme">
+      <div className="card border-purple">
+        <h3 className="text-green text-center">DOT LOG ARCHIVES</h3>
+        <p className="text-center text-gray italic mt-2">No DOT logs saved.</p>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState('contractor');
+  return (
+    <div className="app-container">
+      <div className="watermark-wrapper">
+        <div className="watermark-text">UNLICENSED DEMO<br/>TUCSON EVALUATION</div>
+      </div>
+      <header className="header"><h2>Chronos Engine</h2></header>
+      <nav className="tabs">
+        <button className={`tab hos ${activeTab === 'hos' ? 'active' : ''}`} onClick={() => setActiveTab('hos')}>HOS Logs</button>
+        <button className={`tab contractor ${activeTab === 'contractor' ? 'active' : ''}`} onClick={() => setActiveTab('contractor')}>Contractor</button>
+        <button className={`tab history ${activeTab === 'history' ? 'active' : ''}`} onClick={() => setActiveTab('history')}>History</button>
+      </nav>
+      <main className="content">
+        {activeTab === 'hos' && <HOSLogs />}
+        {activeTab === 'contractor' && <ContractorHub />}
+        {activeTab === 'history' && <HistoryArchives />}
+      </main>
+    </div>
+  );
+}
